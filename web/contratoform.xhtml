@@ -38,6 +38,60 @@
                     </h:panelGroup>
                 </h:panelGrid>
                 <h2 class="panel_grid_center" style="width: 55.5%; text-align: center">CONTRATO</h2>
+                <p:panelGrid columns="2"        
+                             styleClass="panel_grid_center"
+                             columnClasses="form-label-width, form-input"
+                             style="width: 55.5%">
+                    <f:facet name="header">
+                        <h:panelGroup style="display:block; text-align:center">
+                            <p:outputLabel value="DATOS CONTRATO"/>
+                        </h:panelGroup>
+                    </f:facet>
+                    <p:outputLabel for="provincia" value="Provincia:"></p:outputLabel>
+                    <p:inputText id="provincia" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.provinciaString}"
+                                 readonly="true"/>
+                    
+                    <p:outputLabel for="canton" value="Cantón:"></p:outputLabel>
+                    <p:inputText id="canton" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.cantonString}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="parroquia" value="Parroquia:"></p:outputLabel>
+                    <p:inputText id="parroquia" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.parroquiaString}"
+                                 readonly="true"/>
+                    
+                    <p:outputLabel for="sector" value="Sector:"></p:outputLabel>
+                    <p:inputText id="sector" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.sector}"/>
+                    
+                    <p:outputLabel for="tipoCont" value="Tipo Contrato:"></p:outputLabel>
+                    <p:selectOneMenu id="tipoCont" 
+                                     value="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle}" 
+                                     required="true" 
+                                     requiredMessage="Parroquia es requerida">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{selectItemCtrl.tipoContratos}"/>
+                        <p:ajax update="panelPorc panelPorc2" />
+                    </p:selectOneMenu>
+
+                    <h:panelGroup id="panelPorc">
+                        <p:outputLabel for="porc" 
+                                       value="Porcentaje:" 
+                                       rendered="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle == 1612}"/>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelPorc2">
+                        <pe:inputNumber id="porc" 
+                                        thousandSeparator="," 
+                                        decimalSeparator="." 
+                                        decimalPlaces="2" 
+                                        maxValue="9999999999.99" 
+                                        value="#{contratoOperacionCtrl.contratoOperacion.porcentaje}" 
+                                        required="true" requiredMessage="Porcentaje es requerido"
+                                        rendered="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle == 1612}"/>
+                    </h:panelGroup>
+                </p:panelGrid>
                 <p:panelGrid columns="2"    
                              styleClass="panel_grid_center"
                              columnClasses="form-label-width, form-input"
@@ -53,7 +107,7 @@
                                      value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.codigoArcom}"
                                      readonly="#{facesContext.renderResponse}" 
                                      required="true" 
-                                     requiredMessage="Código derecho minero es requerido"/>
+                                     requiredMessage="Código derecho minero es requerido" size="40"/>
                         <p:commandLink id="botonBusquedaCodigo" onclick="PF('dlgBusqCod').show();" 
                                        title="Buscar código" immediate="true">
                             <h:panelGrid style="text-align:center">
@@ -65,19 +119,23 @@
                     <p:outputLabel value="Nombre Concesión:"/>
                     <p:inputText id="nomConcesion"
                                  value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.nombreConcesion}"
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                     <p:outputLabel value="Número Documento:"/>
                     <p:inputText id="numDocumento"
                                  value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.documentoConcesionarioPrincipal}"
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                     <p:outputLabel value="Nombre Titular:"/>
                     <p:inputText id="nomTitular"
                                  value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.nombreConcesionarioPrincipal}"
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                     <p:outputLabel value="Apellido Titular:"/>
                     <p:inputText id="apTitular"
                                  value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.apellidoConcesionarioPrincipal}"
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2"   
                              styleClass="panel_grid_center"
@@ -93,7 +151,8 @@
                         <p:inputText id="cedOtServ" 
                                      value="#{contratoOperacionCtrl.contratoOperacion.numeroDocumento}"
                                      required="true" requiredMessage="Cédula titular requerido"
-                                     readonly="#{facesContext.renderResponse}"/>
+                                     readonly="#{facesContext.renderResponse}"
+                                     size="40"/>
                         <p:commandLink id="botonBusquedaPersona" onclick="PF('dlgBusqPersona').show();" 
                                        title="Buscar Persona" immediate="true">
                             <h:panelGrid style="text-align:center">
@@ -107,78 +166,18 @@
                     <p:outputLabel value="Nombre:"/>
                     <p:inputText id="nomPersona" 
                                  value="#{contratoOperacionCtrl.contratoOperacion.nombrePersona}" 
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                     <p:outputLabel value="Apellido:"/>
                     <p:inputText id="apPersona" 
                                  value="#{contratoOperacionCtrl.contratoOperacion.apellidoPersona}" 
-                                 readonly="true"/>
+                                 readonly="true"
+                                 size="40"/>
                     <p:outputLabel value="Email:"/>
                     <p:inputText id="emailPersona" 
                                  value="#{contratoOperacionCtrl.contratoOperacion.emailPersona}" 
-                                 readonly="true"/>
-                </p:panelGrid>
-                <p:panelGrid columns="2"        
-                             styleClass="panel_grid_center"
-                             columnClasses="form-label-width, form-input"
-                             style="width: 55.5%">
-                    <f:facet name="header">
-                        <h:panelGroup style="display:block; text-align:center">
-                            <p:outputLabel value="DATOS CONTRATO"/>
-                        </h:panelGroup>
-                    </f:facet>
-                    <p:outputLabel for="provincia" value="Provincia:"></p:outputLabel>
-                    <p:selectOneMenu id="provincia" 
-                                     value="#{contratoOperacionCtrl.contratoOperacion.codigoProvincia.codigoLocalidad}" 
-                                     required="true" 
-                                     requiredMessage="Provincia es requerida">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{contratoOperacionCtrl.provincias}"/>
-                        <p:ajax  listener="#{contratoOperacionCtrl.cargaCantones}" update="canton parroquia" />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="canton" value="Cantón:"></p:outputLabel>
-                    <p:selectOneMenu id="canton" 
-                                     value="#{contratoOperacionCtrl.contratoOperacion.codigoCanton.codigoLocalidad}" 
-                                     required="true" 
-                                     requiredMessage="Cantón es requerido">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{contratoOperacionCtrl.cantones}"/>
-                        <p:ajax  listener="#{contratoOperacionCtrl.cargaParroquias}" update="parroquia" />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="parroquia" value="Parroquia:"></p:outputLabel>
-                    <p:selectOneMenu id="parroquia" 
-                                     value="#{contratoOperacionCtrl.contratoOperacion.codigoParroquia.codigoLocalidad}" 
-                                     required="true" 
-                                     requiredMessage="Parroquia es requerida">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{contratoOperacionCtrl.parroquias}"/>
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="tipoCont" value="Tipo Contrato:"></p:outputLabel>
-                    <p:selectOneMenu id="tipoCont" 
-                                     value="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle}" 
-                                     required="true" 
-                                     requiredMessage="Parroquia es requerida">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{selectItemCtrl.tipoContratos}"/>
-                    </p:selectOneMenu>
-
-                    <h:panelGroup>
-                        <p:outputLabel for="porc" 
-                                       value="Porcentaje:" 
-                                       rendered="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle == 1612}"/>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <pe:inputNumber id="porc" 
-                                        thousandSeparator="," 
-                                        decimalSeparator="." 
-                                        decimalPlaces="2" 
-                                        maxValue="9999999999.99" 
-                                        value="#{contratoOperacionCtrl.contratoOperacion.porcentaje}" 
-                                        required="true" requiredMessage="Valor Pago es requerido"
-                                        rendered="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle == 1612}"/>
-                    </h:panelGroup>
+                                 readonly="true"
+                                 size="40"/>
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center; height: 24px">
                             <p:outputLabel value=""/>
@@ -263,7 +262,14 @@
                                              value="Seleccionar"
                                              title="Seleccionar"
                                              style="position: relative; right: 0px">
-                                <p:ajax update=":form:codDerMin :form:nomConcesion :form:numDocumento :form:nomTitular :form:apTitular"/>
+                                <p:ajax update=":form:codDerMin 
+                                        :form:nomConcesion 
+                                        :form:numDocumento 
+                                        :form:nomTitular 
+                                        :form:apTitular
+                                        :form:provincia
+                                        :form:canton
+                                        :form:parroquia"/>
                             </h:commandButton>
                         </h:panelGrid>
                     </h:panelGroup> 

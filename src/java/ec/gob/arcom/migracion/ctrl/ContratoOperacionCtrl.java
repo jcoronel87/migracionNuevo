@@ -132,6 +132,7 @@ public class ContratoOperacionCtrl extends BaseCtrl {
                     contratoOperacion.setApellidoPersona(personaDto.getApellidos());
                     contratoOperacion.setEmailPersona(personaDto.getEmail());
                 }
+                obtenerInformacionGeofrafica(contratoOperacion.getCodigoConcesion());
                 mostrarCoordenadas = true;
             }
         }
@@ -159,6 +160,10 @@ public class ContratoOperacionCtrl extends BaseCtrl {
         cd.setCodigoCatalogoDetalle(ConversionEstadosEnum.OTORGADO.getCodigo19());
         contratoOperacion.setEstadoContrato(cd);
         contratoOperacion.setEstadoRegistro(Boolean.TRUE);
+        if (!contratoOperacion.getTipoContrato().getCodigoCatalogoDetalle()
+                .equals(ConstantesEnum.TIPO_CONTRATO_CESION_DERECHOS.getCodigo())) {
+            contratoOperacion.setPorcentaje(null);
+        }
         try {
             if (contratoOperacion.getCodigoContratoOperacion() == null) {
                 if (mostrarCoordenadas == false) {
@@ -242,7 +247,6 @@ public class ContratoOperacionCtrl extends BaseCtrl {
         if (personaDto == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "No existe persona", null));
-            return;
         }
     }
 
@@ -263,8 +267,24 @@ public class ContratoOperacionCtrl extends BaseCtrl {
             concesionMineraPopup.setApellidoConcesionarioPrincipal(pDto.getApellidos());
         }
         System.out.println("pDto.getApellidos(): " + pDto.getApellidos());
+        obtenerInformacionGeofrafica(concesionMineraPopup);
         contratoOperacion.setCodigoConcesion(concesionMineraPopup);
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
+    }
+    
+    public void obtenerInformacionGeofrafica(ConcesionMinera cm) {
+        Localidad provincia = localidadServicio.findByPk(cm.getCodigoProvincia().longValue());
+        if (provincia != null) {
+            cm.setProvinciaString(provincia.getNombre());
+        }
+        Localidad canton = localidadServicio.findByPk(cm.getCodigoCanton().longValue());
+        if (canton != null) {
+            cm.setCantonString(canton.getNombre());
+        }
+        Localidad parroquia = localidadServicio.findByPk(cm.getCodigoParroquia().longValue());
+        if (parroquia != null) {
+            cm.setParroquiaString(parroquia.getNombre());
+        }
     }
 
     public void seleccionarPersona() {

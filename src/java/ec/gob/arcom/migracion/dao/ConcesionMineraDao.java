@@ -33,4 +33,7 @@ public interface ConcesionMineraDao extends GenericDao<ConcesionMinera, Long> {
     
     List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta, String numDocumento);
     
+    List<ConcesionMinera> list();
+    
+    public List<ConcesionMinera> findByCodigo(String codigo);
 }

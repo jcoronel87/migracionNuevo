@@ -11,7 +11,6 @@ import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
-import static ec.gob.arcom.migracion.modelo.Instrumento_.licenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
@@ -151,7 +150,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
                 registroPagoObligacionesServicio.create(patentesRegaliasUtilidades);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
-                auditoria.setDetalleAnterior(licenciaComercializacion.toString());
+                auditoria.setDetalleAnterior(patentesRegaliasUtilidades.toString());
                 auditoria.setDetalleCambios(null);
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
@@ -166,7 +165,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(patentesRegaliasUtilidadesAnterior.toString());
-                auditoria.setDetalleCambios(licenciaComercializacion.toString());
+                auditoria.setDetalleCambios(patentesRegaliasUtilidades.toString());
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
                 auditoriaServicio.create(auditoria);

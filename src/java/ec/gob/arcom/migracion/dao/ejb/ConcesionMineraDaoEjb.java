@@ -231,7 +231,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                 + " cm.codigo_provincia in (select lcr.codigo_localidad from catmin.localidad_regional lcr where lcr.codigo_regional = "
                 + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lr, catmin.usuario where numero_documento = '" + cedulaRuc + "'\n"
                 + "                                 and r.codigo_regional = lr.codigo_regional and lr.codigo_localidad = codigo_provincia)) "
-                + "and (cm.migrada = true or cm.estado_concesion = 243) \n"               
+                + "and (cm.migrada = true or cm.estado_concesion = 243) \n"
                 + "and ('-1' = '" + codigoFiltro + "' or cm.codigo_arcom like '%" + codigoFiltro + "%')\n"
                 + "and ('-1' = '" + cedulaTitularFiltro + "' or cm.documento_concesionario_principal like '%" + cedulaTitularFiltro + "%')\n"
                 + "and ('-1' = '" + nombreAreaFiltro + "' or lower(cm.nombre_concesion) like lower('%" + nombreAreaFiltro + "%'))\n"
@@ -522,8 +522,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
     }
 
     @Override
-    public List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, 
-            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, 
+    public List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia,
+            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde,
             Date fechaHasta, String numDocumento) {
         String sql1 = "";
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())
@@ -758,5 +758,41 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             listaFinal.add(dm);
         }
         return listaFinal;
+    }
+
+    @Override
+    public List<ConcesionMinera> list() {
+        try {
+            Query query = em.createQuery("Select c from ConcesionMinera c order by c.codigoConcesion asc");
+            List<ConcesionMinera> listaFinal = query.getResultList();
+            for (ConcesionMinera cm : listaFinal) {
+                this.refresh(cm);
+            }
+            return listaFinal;
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+        return null;
+    }
+
+    @Override
+    public void update(ConcesionMinera cm) {
+        em.merge(cm);
+    }
+
+    @Override
+    public List<ConcesionMinera> findByCodigo(String codigo) {
+        try {
+            Query query = em.createQuery("Select c from ConcesionMinera c where c.codigoArcom= :codigo order by c.codigoConcesion asc");
+            query.setParameter("codigo", codigo);
+            List<ConcesionMinera> listaFinal = query.getResultList();
+            for (ConcesionMinera cm : listaFinal) {
+                this.refresh(cm);
+            }
+            return listaFinal;
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+        return null;
     }
 }

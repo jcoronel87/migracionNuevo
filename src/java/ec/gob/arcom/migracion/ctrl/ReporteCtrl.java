@@ -174,6 +174,13 @@ public class ReporteCtrl extends BaseCtrl {
                         + "/birt/frameset?__report=report/derechosMineros/plantasBeneficio.rptdesign&__format=xlsx";
         System.out.println("urlReporte: " + urlReporte);
     }
+    
+    public void generarReporteDerechosMinerosConsolidadosBirt() {
+        System.out.println("entra generarReporteDerechosMinerosConsolidados");
+        urlReporte = ConstantesEnum.URL_BASE_DESARROLLO.getDescripcion()
+                        + "/birt/frameset?__report=report/derechosMineros/consolidadoDerechosMinerosVig.rptdesign&__format=xlsx";
+        System.out.println("urlReporte: " + urlReporte);
+    }
 
     public LoginCtrl getLogin() {
         return login;
@@ -247,6 +254,8 @@ public class ReporteCtrl extends BaseCtrl {
         } else if (codigoTipoMineria.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
             //generarReportePlantaBeneficio();
             generarReportePlantasBeneficioBirt();
+        } else if (codigoTipoMineria.equals(ConstantesEnum.TIPO_SOLICITUD_DERECHOS_MINEROS_CONSOLIDADOS.getCodigo())) {
+            generarReporteDerechosMinerosConsolidadosBirt();
         }
     }
 
@@ -268,7 +277,8 @@ public class ReporteCtrl extends BaseCtrl {
                         || ce.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR)
                         || ce.equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM)
                         || ce.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART)
-                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN)) {
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN)
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_DERECHOS_MINEROS_CONSOLIDADOS)) {
                     tipoSolicitudes.add(new SelectItem(ce.getCodigo(), ce.getDescripcion()));
                 }
             }

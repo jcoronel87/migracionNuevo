@@ -6,6 +6,7 @@
 package ec.gob.arcom.migracion.ctrl;
 
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
+import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDaoLocal;
 import ec.gob.arcom.migracion.dao.LocalidadDao;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
@@ -36,6 +37,8 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @SessionScoped
 public class CoordenadaCtrl extends BaseCtrl {
+    @EJB
+    private ConcesionMineraDao concesionMineraDao;
     @EJB
     private ConcesionMineraDaoLocal cmDao;
     @EJB
@@ -206,7 +209,7 @@ public class CoordenadaCtrl extends BaseCtrl {
     }
     
     private void cargarConcesiones() {
-        this.concesiones= cmDao.list();
+        this.concesiones= concesionMineraDao.list();
     }
     
     public String cargarLocalidad(Long pk) {
@@ -243,7 +246,7 @@ public class CoordenadaCtrl extends BaseCtrl {
     
     public void buscar() {
         if(codigoFiltro.length()>0) {
-            this.concesiones= cmDao.findByCodigo(codigoFiltro);
+            this.concesiones= concesionMineraDao.findByCodigo(codigoFiltro);
         }
     }
     

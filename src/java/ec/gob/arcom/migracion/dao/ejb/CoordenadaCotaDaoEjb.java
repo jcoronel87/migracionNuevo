@@ -27,7 +27,7 @@ public class CoordenadaCotaDaoEjb extends GenericDaoEjbEl<CoordenadaCota, Long> 
 
     @Override
     public List<CoordenadaCota> obtenerPorContratoOrden(Long codigoContrato, BigInteger orden) {
-        String jpql = "select cc from CoordenadaCota cc where cc.codigoContratoOperacion = :codigoContrato and cc.orden = :orden";
+        String jpql = "select cc from CoordenadaCota cc where cc.codigoContratoOperacion.codigoContratoOperacion = :codigoContrato and cc.orden = :orden";
         Query query = em.createQuery(jpql);
         query.setParameter("codigoContrato", codigoContrato);
         query.setParameter("orden", orden);
@@ -35,10 +35,10 @@ public class CoordenadaCotaDaoEjb extends GenericDaoEjbEl<CoordenadaCota, Long> 
     }
 
     @Override
-    public List<CoordenadaCota> findByCodigoContrato(Long codigoCoordenadaCota) {
-        String jpql = "select cc from CoordenadaCota cc where cc.codigoCoordenadaCota = :codigoCoordenadaCota";
+    public List<CoordenadaCota> findByCodigoContrato(Long codigoContratoOperacion) {
+        String jpql = "select cc from CoordenadaCota cc where cc.codigoContratoOperacion.codigoContratoOperacion = :codigoContratoOperacion";
         Query query = em.createQuery(jpql);
-        query.setParameter("codigoCoordenadaCota", codigoCoordenadaCota);
+        query.setParameter("codigoContratoOperacion", codigoContratoOperacion);
         return query.getResultList();
     }
 
