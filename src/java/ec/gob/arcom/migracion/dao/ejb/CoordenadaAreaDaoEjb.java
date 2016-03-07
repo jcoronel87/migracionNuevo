@@ -56,7 +56,12 @@ public class CoordenadaAreaDaoEjb extends GenericDaoEjbEl<CoordenadaArea, Long> 
         try {
             Query query= em.createQuery("Select coor from CoordenadaArea coor where coor.codigoArea.codigoAreaMinera= :codigoArea order by coor.numeroCoordenada asc");
             query.setParameter("codigoArea", codigoArea);
-            return query.getResultList();
+            List<CoordenadaArea> l= query.getResultList();
+            //return query.getResultList();
+            for(CoordenadaArea l1 : l) {
+                em.refresh(l1);
+            }
+            return l;
         } catch(Exception ex) {
             System.out.println(ex.toString());
         }

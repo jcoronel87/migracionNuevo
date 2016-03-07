@@ -9,7 +9,9 @@ import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDaoLocal;
 import ec.gob.arcom.migracion.dao.LocalidadDao;
+import ec.gob.arcom.migracion.dao.PersonaNaturalDao;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
+import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.CoordenadaArea;
@@ -49,6 +51,8 @@ public class CoordenadaCtrl extends BaseCtrl {
     private AuditoriaServicio auditoriaServicio;
     @EJB
     private CoordenadaAreaServicio coordenadaAreaServicio;
+    @EJB
+    private PersonaNaturalDao pNaturalDao;
     
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
@@ -114,7 +118,7 @@ public class CoordenadaCtrl extends BaseCtrl {
     
     
     public String editAction(Integer row) {
-        this.concesion= concesiones.get(row);
+        this.concesion= cmDao.findByCodigo(concesiones.get(row).getCodigoArcom()).get(0);
         this.concesion.getAreaMineraList().get(0).setCoordenadaAreaList(coordenadaAreaServicio.list(this.concesion.getAreaMineraList().get(0).getCodigoAreaMinera()));
         return "coordenadaform";
     }
@@ -209,7 +213,7 @@ public class CoordenadaCtrl extends BaseCtrl {
     }
     
     private void cargarConcesiones() {
-        this.concesiones= concesionMineraDao.list();
+        this.concesiones= cmDao.list();
     }
     
     public String cargarLocalidad(Long pk) {
@@ -217,11 +221,13 @@ public class CoordenadaCtrl extends BaseCtrl {
     }
     
     public String obtenerNombreApellidoTitular() {
+        PersonaDto persona= pNaturalDao.obtenerPersonaPorNumIdentificacion(concesion.getDocumentoConcesionarioPrincipal());
+        
         String result= "";
-        if(this.concesion.getNombreConcesionarioPrincipal() != null)
-            result+= this.concesion.getNombreConcesionarioPrincipal();
-        if(this.concesion.getApellidoConcesionarioPrincipal() != null)
-            result+= " " + this.concesion.getApellidoConcesionarioPrincipal();
+        if(persona.getNombres() != null)
+            result+= persona.getNombres();
+        if(persona.getApellidos() != null)
+            result+= " " + persona.getApellidos();
         return result;
     }
     
@@ -246,7 +252,10 @@ public class CoordenadaCtrl extends BaseCtrl {
     
     public void buscar() {
         if(codigoFiltro.length()>0) {
-            this.concesiones= concesionMineraDao.findByCodigo(codigoFiltro);
+            this.concesiones= cmDao.findByCodigo(codigoFiltro);
+            codigoFiltro= "";
+        } else {
+            cargarConcesiones();
         }
     }
     

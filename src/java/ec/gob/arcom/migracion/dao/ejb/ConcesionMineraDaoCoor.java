@@ -43,7 +43,11 @@ public class ConcesionMineraDaoCoor implements ConcesionMineraDaoLocal {
         try {
             Query query= em.createQuery("Select c from ConcesionMinera c where c.codigoArcom= :codigo order by c.codigoConcesion asc");
             query.setParameter("codigo", codigo);
-            return query.getResultList();
+            List<ConcesionMinera> l= query.getResultList();
+            for (ConcesionMinera l1 : l) {
+                em.refresh(l1);
+            }
+            return l;
         } catch(Exception ex) {
             System.out.println(ex.toString());
         }
