@@ -104,9 +104,6 @@ public class ContratoOperacionCtrl extends BaseCtrl {
             if (idContrato == null) {
                 contratoOperacion = new ContratoOperacion();
                 contratoOperacion.setCodigoConcesion(new ConcesionMinera());
-                contratoOperacion.setCodigoProvincia(new Localidad());
-                contratoOperacion.setCodigoCanton(new Localidad());
-                contratoOperacion.setCodigoParroquia(new Localidad());
                 contratoOperacion.setTipoContrato(new CatalogoDetalle());
             } else {
                 contratoOperacion = contratoOperacionServicio.findByPk(idContrato);
@@ -227,12 +224,18 @@ public class ContratoOperacionCtrl extends BaseCtrl {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         concesionMineraPopup = concesionMineraServicio.obtenerPorCodigoArcom(codigoFiltro);
         if (concesionMineraPopup != null) {
-            concesionMineraPopup.setProvinciaString(localidadServicio
-                    .findByPk(concesionMineraPopup.getCodigoProvincia().longValue()).getNombre());
-            concesionMineraPopup.setCantonString(localidadServicio
-                    .findByPk(concesionMineraPopup.getCodigoCanton().longValue()).getNombre());
-            concesionMineraPopup.setParroquiaString(localidadServicio
-                    .findByPk(concesionMineraPopup.getCodigoParroquia().longValue()).getNombre());
+            Localidad provincia = localidadServicio
+                    .findByPk(concesionMineraPopup.getCodigoProvincia().longValue());
+            concesionMineraPopup.setProvinciaString(provincia.getNombre());
+            contratoOperacion.setCodigoProvincia(provincia);
+            Localidad canton = localidadServicio
+                    .findByPk(concesionMineraPopup.getCodigoCanton().longValue());
+            concesionMineraPopup.setCantonString(canton.getNombre());
+            contratoOperacion.setCodigoCanton(canton);
+            Localidad parroquia = localidadServicio
+                    .findByPk(concesionMineraPopup.getCodigoParroquia().longValue());
+            concesionMineraPopup.setParroquiaString(parroquia.getNombre());
+            contratoOperacion.setCodigoParroquia(parroquia);
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "La concesión no existe", null));

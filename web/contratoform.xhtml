@@ -47,25 +47,8 @@
                             <p:outputLabel value="DATOS CONTRATO"/>
                         </h:panelGroup>
                     </f:facet>
-                    <p:outputLabel for="provincia" value="Provincia:"></p:outputLabel>
-                    <p:inputText id="provincia" 
-                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.provinciaString}"
-                                 readonly="true"/>
-                    
-                    <p:outputLabel for="canton" value="Cantón:"></p:outputLabel>
-                    <p:inputText id="canton" 
-                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.cantonString}"
-                                 readonly="true"/>
 
-                    <p:outputLabel for="parroquia" value="Parroquia:"></p:outputLabel>
-                    <p:inputText id="parroquia" 
-                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.parroquiaString}"
-                                 readonly="true"/>
-                    
-                    <p:outputLabel for="sector" value="Sector:"></p:outputLabel>
-                    <p:inputText id="sector" 
-                                 value="#{contratoOperacionCtrl.contratoOperacion.sector}"/>
-                    
+
                     <p:outputLabel for="tipoCont" value="Tipo Contrato:"></p:outputLabel>
                     <p:selectOneMenu id="tipoCont" 
                                      value="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle}" 
@@ -75,7 +58,7 @@
                         <f:selectItems value="#{selectItemCtrl.tipoContratos}"/>
                         <p:ajax update="panelPorc panelPorc2" />
                     </p:selectOneMenu>
-
+                    
                     <h:panelGroup id="panelPorc">
                         <p:outputLabel for="porc" 
                                        value="Porcentaje:" 
@@ -91,6 +74,11 @@
                                         required="true" requiredMessage="Porcentaje es requerido"
                                         rendered="#{contratoOperacionCtrl.contratoOperacion.tipoContrato.codigoCatalogoDetalle == 1612}"/>
                     </h:panelGroup>
+                    
+                    <p:outputLabel for="sector" value="Sector:"></p:outputLabel>
+                    <p:inputText id="sector" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.sector}"/>
+
                 </p:panelGrid>
                 <p:panelGrid columns="2"    
                              styleClass="panel_grid_center"
@@ -178,6 +166,20 @@
                                  value="#{contratoOperacionCtrl.contratoOperacion.emailPersona}" 
                                  readonly="true"
                                  size="40"/>
+                    <p:outputLabel for="provincia" value="Provincia:"></p:outputLabel>
+                    <p:inputText id="provincia" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.provinciaString}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="canton" value="Cantón:"></p:outputLabel>
+                    <p:inputText id="canton" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.cantonString}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="parroquia" value="Parroquia:"></p:outputLabel>
+                    <p:inputText id="parroquia" 
+                                 value="#{contratoOperacionCtrl.contratoOperacion.codigoConcesion.parroquiaString}"
+                                 readonly="true"/>
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center; height: 24px">
                             <p:outputLabel value=""/>
